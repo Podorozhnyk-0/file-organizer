@@ -17,19 +17,17 @@ public class Main {
     void main(String[] args) {
         Arguments arguments = Arguments.from(args);
         if (arguments.hasKey("--gui")) {
-            IO.println("Work in GUI");
+            IO.println("GUI mode");
             new MainWindow(NAME, VERSION, AUTHOR);
         } else  {
             Path workingPath = Paths.get("");
             int maxDepth = 1;
             if (arguments.hasKey("--path")) {
-                IO.println("Path is " + arguments.getValue("--path"));
                 workingPath = Paths.get(arguments.getValue("--path"));
             }
             if (arguments.hasKey("-d")) {
-                IO.println("MD is " + arguments.getValue("-d"));
                 maxDepth = Integer.parseInt(arguments.getValue("-d"));
-                if (maxDepth < 0) maxDepth = Integer.MAX_VALUE;
+                if (maxDepth <= 0) maxDepth = Integer.MAX_VALUE;
             }
             var result = new Organizer(workingPath, maxDepth).organizeFiles();
             if (arguments.hasKey("--logs")) {

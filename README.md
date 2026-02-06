@@ -1,6 +1,5 @@
 # File Organizer
 
----
 This utility automatically sorts files with various extensions into their respective directories.
 The program supports specifying the maximum file search depth (default is 1), enabling logging to the file, and also has the option to run in graphical and console displays.
 
