@@ -6,7 +6,7 @@ import java.util.Set;
 
 public enum FileType {
     DOCUMENT_TEXT       ("Documents/Text",      Set.of(".txt", ".doc", ".docx", ".pdf", ".odt",
-            ".xls", ".log", ".ini", ".xlsx", ".pptx", ".inf", ".cfg", ".config", ".csv", ".rtf", ".epub", ".bat", ".cmd", ".css")),
+            ".xls", ".log", ".ini", ".xlsx", ".pptx", ".inf", ".cfg", ".config", ".csv", ".rtf", ".epub", ".bat", ".cmd", ".css", ".djvu")),
     DOCUMENT_CODE       ("Documents/Code",      Set.of(".cpp", ".java", ".js", ".html", ".htm", ".json", ".xml", ".py", ".hpp", ".c", ".h")),
     DOCUMENT_ARCHIVE    ("Documents/Archives",  Set.of(".zip", ".7z", ".rar", "tar", ".gz", ".xz", ".bz2", ".zst")),
     DOCUMENT_DISC_IMAGES("Documents/DiscImages",Set.of(".iso")),
@@ -20,21 +20,21 @@ public enum FileType {
     TORRENT             ("Torrents",            Set.of(".torrent")),
     UNKNOWN             ("Unknown",             Set.of(""));
 
-    private final String PATH;
-    private final Set<String> EXT;
+    private final String path;
+    private final Set<String> ext;
 
 
     FileType(String path, Set<String> extensions) {
-        PATH = path;
-        EXT = extensions;
+        this.path = path;
+        ext = extensions;
     }
 
     public Path getPath() {
-        return Path.of(PATH);
+        return Path.of(path);
     }
 
     public boolean contains(String ext) {
-        return EXT.contains(ext);
+        return this.ext.contains(ext);
     }
 
     public static FileType from(String ext) {

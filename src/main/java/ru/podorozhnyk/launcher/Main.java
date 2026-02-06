@@ -1,29 +1,24 @@
-package ru.podorozhnyk.launcher;/*
- * - Сделать сортировку без аргументов (текущая папка)
- * - Сортировщик определяет типы файлов (документ, изображение, видео, и т.д.)
- * - Затем на каждый найденный тип создаётся папка в текущем каталоге
- * - Затем помеченные файлы каждого типа перемещаются в подкаталог своего типа
-
- - Следует добавить параметр, позволяющий указать уровень вложенности.
- - Добавить логгер ошибок и пропущенных файлов
- аргументы: -d=... (max-depth)
-            --path=
-            --gui
- */
+package ru.podorozhnyk.launcher;
 
 import ru.podorozhnyk.application.Organizer;
+import ru.podorozhnyk.ui.MainWindow;
 import ru.podorozhnyk.utils.Arguments;
+import ru.podorozhnyk.utils.FileUtils;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Main {
 
+    private final String NAME = "File Organizer";
+    private final String VERSION = "v1.0";
+    private final String AUTHOR = "Podorozhnyk-0";
 
     void main(String[] args) {
         Arguments arguments = Arguments.from(args);
         if (arguments.hasKey("--gui")) {
             IO.println("Work in GUI");
+            new MainWindow(NAME, VERSION, AUTHOR);
         } else  {
             Path workingPath = Paths.get("");
             int maxDepth = 1;
@@ -36,9 +31,16 @@ public class Main {
                 maxDepth = Integer.parseInt(arguments.getValue("-d"));
                 if (maxDepth < 0) maxDepth = Integer.MAX_VALUE;
             }
-            new Organizer(workingPath, maxDepth);
+            var result = new Organizer(workingPath, maxDepth).organizeFiles();
+            if (arguments.hasKey("--logs")) {
+                String logs = result.toStringFull();
+                IO.println(logs);
+                FileUtils.saveLogs(logs);
+            }
+            else {
+                IO.println(result);
+            }
+
         }
-
-
     }
 }

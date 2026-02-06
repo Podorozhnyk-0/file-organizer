@@ -1,7 +1,10 @@
 package ru.podorozhnyk.utils;
 
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public final class FileUtils {
@@ -36,5 +39,17 @@ public final class FileUtils {
             target = dest.resolve(newFileName);
         }
         return target;
+    }
+
+    public static void saveLogs(String logStr) {
+        try {
+            String fileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd+HH-mm-ss"));
+            File file = Files.createFile(Path.of(fileName + ".log")).toFile();
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))){
+                writer.append(logStr);
+            }
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }
